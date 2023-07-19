@@ -1,3 +1,10 @@
+﻿// bologna-cmake.cpp : Defines the entry point for the application.
+//
+
+#include "bologna-cmake.h"
+
+using namespace std;
+
 #include <iostream>
 #include <string>
 #include <map>
