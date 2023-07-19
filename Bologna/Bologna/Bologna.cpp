@@ -6,7 +6,7 @@ using namespace std;
 
 namespace bologna {
     enum SyntaxKind {
-        NumberToken=0, WhiteSpaceToken, PlusToken, MinusToken, StarToken, SlashToken,
+        NumberToken = 0, WhiteSpaceToken, PlusToken, MinusToken, StarToken, SlashToken,
         OpenParenthesesToken, CloseParenthesesToken, EOFToken, BadToken
     };
 
@@ -43,16 +43,16 @@ namespace bologna {
             _value = value;
         }
 
-        SyntaxKind Kind() {
+        SyntaxKind Kind() const {
             return _kind;
         }
-        int Position() {
+        int Position() const {
             return _position;
         }
-        string Text() {
+        string Text() const {
             return _text;
         }
-        int Value() {
+        int Value() const {
             return _value;
         }
     };
@@ -60,7 +60,7 @@ namespace bologna {
     class Lexer {
         string _text;
         int _position = 0;
-        
+
         char Current() const {
             if (_position >= _text.length())
                 return '\0';
@@ -78,7 +78,7 @@ namespace bologna {
 
         SyntaxToken NextToken() {
             if (_position >= _text.length())
-                return SyntaxToken(EOFToken, _position, "\0", NULL);
+                return SyntaxToken(EOFToken, _position, "\0", 0);
 
             if (isdigit(Current())) {
                 auto start = _position;
@@ -99,23 +99,23 @@ namespace bologna {
 
                 auto length = _position - start;
                 auto text = _text.substr(start, length);
-                return SyntaxToken(WhiteSpaceToken, start, text, NULL);
+                return SyntaxToken(WhiteSpaceToken, start, text, 0);
             }
 
             if (Current() == '+')
-                return SyntaxToken(PlusToken, _position++, "+", NULL);
+                return SyntaxToken(PlusToken, _position++, "+", 0);
             else if (Current() == '-')
-                return SyntaxToken(MinusToken, _position++, "-", NULL);
+                return SyntaxToken(MinusToken, _position++, "-", 0);
             else if (Current() == '*')
-                return SyntaxToken(StarToken, _position++, "*", NULL);
+                return SyntaxToken(StarToken, _position++, "*", 0);
             else if (Current() == '/')
-                return SyntaxToken(SlashToken, _position++, "/", NULL);
+                return SyntaxToken(SlashToken, _position++, "/", 0);
             else if (Current() == '(')
-                return SyntaxToken(OpenParenthesesToken, _position++, "(", NULL);
+                return SyntaxToken(OpenParenthesesToken, _position++, "(", 0);
             else if (Current() == ')')
-                return SyntaxToken(CloseParenthesesToken, _position++, ")", NULL);
+                return SyntaxToken(CloseParenthesesToken, _position++, ")", 0);
 
-            return SyntaxToken(BadToken, _position++, _text.substr(_position - 1, 1), NULL);
+            return SyntaxToken(BadToken, _position++, _text.substr(_position - 1, 1), 0);
         }
     };
 }
@@ -137,7 +137,7 @@ int main()
                 break;
 
             cout << token.Kind() << ": '" << token.Text() << "' ";
-            if (token.Value()) {
+            if (token.Value() != 0) {
                 cout << token.Value();
             }
             cout << endl;
