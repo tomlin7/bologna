@@ -1,4 +1,4 @@
-﻿// bologna-cmake.h : Include file for standard system include files,
+﻿// sushi-cmake.h : Include file for standard system include files,
 // or project specific include files.
 
 #pragma once
